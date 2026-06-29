@@ -1,0 +1,89 @@
+erDiagram
+    USER ||--o{ USER_ROLE : "has"
+    ROLE ||--o{ USER_ROLE : "assigned to"
+    USER ||--o| MENTOR_PROFILE : "is (role=MENTOR)"
+
+    MENTOR_PROFILE ||--o{ MENTOR_SKILL : "offers"
+    SKILL          ||--o{ MENTOR_SKILL : "listed in"
+
+    MENTOR_PROFILE ||--o{ COURSE : "creates"
+    COURSE ||--o{ COURSE_TAG : "has"
+    TAG    ||--o{ COURSE_TAG : "labels"
+
+    MENTOR_PROFILE ||--o{ AVAILABILITY_SLOT : "opens"
+    AVAILABILITY_SLOT ||--o| BOOKING : "reserved by (UNIQUE)"
+    USER ||--o{ BOOKING : "makes (student)"
+
+    USER   ||--o{ ENROLLMENT : "enrolls"
+    COURSE ||--o{ ENROLLMENT : "enrolled in"
+
+    USER {
+        bigint   id PK
+        string   username UK
+        string   email UK
+        string   password_hash
+        string   full_name
+        datetime created_at
+    }
+    ROLE {
+        bigint id PK
+        string name UK "STUDENT / MENTOR / ADMIN"
+    }
+    USER_ROLE {
+        bigint user_id PK,FK
+        bigint role_id PK,FK
+    }
+    MENTOR_PROFILE {
+        bigint  id PK
+        bigint  user_id FK,UK
+        string  title
+        string  bio
+        decimal hourly_rate
+        int     years_experience
+    }
+    SKILL {
+        bigint id PK
+        string name UK "Spring Boot, React, DevOps"
+        string slug UK
+    }
+    MENTOR_SKILL {
+        bigint mentor_id PK,FK
+        bigint skill_id PK,FK
+    }
+    COURSE {
+        bigint   id PK
+        bigint   mentor_id FK
+        string   title
+        string   description
+        string   video_url
+        decimal  price
+        string   level
+        datetime created_at
+    }
+    TAG {
+        bigint id PK
+        string name UK
+    }
+    COURSE_TAG {
+        bigint course_id PK,FK
+        bigint tag_id PK,FK
+    }
+    AVAILABILITY_SLOT {
+        bigint   id PK
+        bigint   mentor_id FK
+        datetime start_time
+        datetime end_time
+        string   status "OPEN / BOOKED"
+    }
+    BOOKING {
+        bigint   id PK
+        bigint   student_id FK
+        bigint   slot_id FK,UK "UNIQUE -> chống double booking"
+        string   status "PENDING / CONFIRMED / CANCELLED"
+        datetime created_at
+    }
+    ENROLLMENT {
+        bigint   student_id PK,FK
+        bigint   course_id PK,FK
+        datetime enrolled_at
+    }
