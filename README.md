@@ -354,4 +354,5 @@ Qua Hackathon này, em rút ra:
 - **Phần 2 (cần Maven + Spring Boot):** Import `pom.xml` vào IDE, chạy ứng dụng Spring Boot, gọi `POST /api/users/register` 2 lần cùng email → lần 2 trả **409** JSON đồng nhất thay vì 500.
 - **Phần 3:** Xem `docs/erd_diagram.png`; nguồn Mermaid tại `docs/erd_diagram.mmd`.
 #   h a c k t h o n g 2 1 2 _ A i  
+ #   h a c k t h o n g 2 1 2 _ A i  
  
